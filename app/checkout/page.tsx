@@ -1,4 +1,6 @@
 "use client";
+import { Suspense } from "react";
+export const dynamic = "force-dynamic";
 
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -19,7 +21,7 @@ const plans = {
   },
 };
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const searchParams = useSearchParams();
 
   const [loading, setLoading] = useState(false);
@@ -245,5 +247,19 @@ export default function CheckoutPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen bg-[#080711] flex items-center justify-center text-white">
+          <p className="text-white/50">Loading checkout...</p>
+        </main>
+      }
+    >
+      <CheckoutContent />
+    </Suspense>
   );
 }
